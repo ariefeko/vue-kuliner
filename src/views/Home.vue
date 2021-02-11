@@ -15,8 +15,8 @@
       </div>
 
       <div class="row mb-3">
-        <div class="col-md-4 mt-4">
-          <CardProduct />
+        <div class="col-md-4 mt-4" v-for="product in products" :key="product.id">
+          <CardProduct :product="product" />
         </div>
       </div>
     </div>
@@ -28,6 +28,7 @@
 import Navbar from "@/components/Navbar.vue";
 import Hero from "@/components/Hero.vue";
 import CardProduct from "@/components/CardProduct.vue";
+import axios from "axios";
 
 export default {
   name: "Home",
@@ -35,6 +36,25 @@ export default {
     Navbar,
     Hero,
     CardProduct,
+  },
+
+  data() {
+    return {
+      products: [],
+    };
+  },
+  // get data from backend and put it to products array above
+  methods: {
+    setProducts(data) {
+      this.products = data;
+    },
+  },
+  // executed when home.vue loaded
+  mounted() {
+    axios
+      .get("http://localhost:3000/best-products")
+      .then((response) => this.setProducts(response.data))
+      .catch((error) => console.log(error));
   },
 };
 </script>
