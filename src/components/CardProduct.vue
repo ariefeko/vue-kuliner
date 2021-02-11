@@ -1,5 +1,16 @@
 <template>
-  <h2>{{ product.nama }}</h2>
+  <div class="card shadow card-product">
+    <img
+      class="card-img-top"
+      :src="'../assets/images/' + product.gambar"
+      alt="Card image cap"
+    />
+    <div class="card-body">
+      <h5 class="cart-title">{{ product.nama }}</h5>
+      <p class="card-text">Harga Rp. {{ product.harga }}</p>
+      <a href="#" class="btn btn-success"><b-icon-cart></b-icon-cart> Pesan</a>
+    </div>
+  </div>
 </template>
 
 <script>
