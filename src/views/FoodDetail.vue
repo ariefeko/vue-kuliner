@@ -100,14 +100,15 @@ export default {
         this.pesan.products = this.product;
         axios
           .post("http://localhost:3000/keranjangs", this.pesan)
-          .then(() =>
+          .then(() => {
+            this.$router.push({path: "/keranjang"})
             this.$toast.success("Sukses Masuk Keranjang", {
               type: "success",
               position: "top-right",
               duration: 3000,
               dismissable: true,
             })
-          )
+          })
           .catch((err) => console.log(err));
       } else {
         this.$toast.error(
