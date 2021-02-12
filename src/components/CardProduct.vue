@@ -1,10 +1,6 @@
 <template>
   <div class="card shadow card-product">
-    <img
-      class="card-img-top"
-      :src="'../assets/images/' + product.gambar"
-      alt="Card image cap"
-    />
+    <img class="card-img-top" :src="getImgUrl(product.gambar)" />
     <div class="card-body">
       <h5 class="cart-title">{{ product.nama }}</h5>
       <p class="card-text">Harga Rp. {{ product.harga }}</p>
@@ -17,6 +13,11 @@
 export default {
   name: "CardProduct",
   props: ["product"],
+  methods: {
+    getImgUrl(pic) {
+      return require("../assets/images/" + pic);
+    },
+  },
 };
 </script>
 
