@@ -38,43 +38,43 @@
 
 <script>
 // @ is an alias to /src
-import Navbar from "@/components/Navbar.vue";
-import CardProduct from "@/components/CardProduct.vue";
-import axios from "axios";
+import Navbar from "@/components/Navbar.vue"
+import CardProduct from "@/components/CardProduct.vue"
+import axios from "axios"
 
 export default {
   name: "Foods",
   components: {
     Navbar,
-    CardProduct,
+    CardProduct
   },
 
   data() {
     return {
       products: [],
-      search: "",
-    };
+      search: ""
+    }
   },
   // get data from backend and put it to products array above
   methods: {
     setProducts(data) {
-      this.products = data;
+      this.products = data
     },
     searchFood() {
       axios
         .get("http://localhost:3000/products?q=" + this.search)
         .then((response) => this.setProducts(response.data))
-        .catch((error) => console.log(error));
-    },
+        .catch((error) => console.log(error))
+    }
   },
   // executed when home.vue loaded
   mounted() {
     axios
       .get("http://localhost:3000/products")
       .then((response) => this.setProducts(response.data))
-      .catch((error) => console.log(error));
-  },
-};
+      .catch((error) => console.log(error))
+  }
+}
 </script>
 
 <style></style>

@@ -25,29 +25,29 @@
 
 <script>
 // @ is an alias to /src
-import Navbar from "@/components/Navbar.vue";
-import Hero from "@/components/Hero.vue";
-import CardProduct from "@/components/CardProduct.vue";
-import axios from "axios";
+import Navbar from "@/components/Navbar.vue"
+import Hero from "@/components/Hero.vue"
+import CardProduct from "@/components/CardProduct.vue"
+import axios from "axios"
 
 export default {
   name: "Home",
   components: {
     Navbar,
     Hero,
-    CardProduct,
+    CardProduct
   },
 
   data() {
     return {
-      products: [],
-    };
+      products: []
+    }
   },
   // get data from backend and put it to products array above
   methods: {
     setProducts(data) {
-      this.products = data;
-    },
+      this.products = data
+    }
   },
   // executed when home.vue loaded
   mounted() {
@@ -55,6 +55,6 @@ export default {
       .get("http://localhost:3000/best-products")
       .then((response) => this.setProducts(response.data))
       .catch((error) => console.log(error));
-  },
-};
+  }
+}
 </script>
