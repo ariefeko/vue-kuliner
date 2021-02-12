@@ -1,5 +1,5 @@
 # Kulineran Store
-Food order store with Vuejs, axios and JSONPlaceholder as fake db
+Food order store with Vuejs, Vue UI, axios and JSONPlaceholder as fake db
 
 ## Project setup
 ```
