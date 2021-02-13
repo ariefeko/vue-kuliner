@@ -21,7 +21,7 @@
             <router-link class="nav-link" to="/keranjang">
               Keranjang
               <b-icon-bag></b-icon-bag>
-              <span class="badge badge-success ml-2">{{ jumlah_pesanans.length }}</span>
+              <span class="badge badge-success ml-2">{{ updateKeranjang ? updateKeranjang.length : jumlah_pesanan.length }}</span>
             </router-link>
           </li>
         </ul>
@@ -35,19 +35,20 @@ import axios from "axios";
 
 export default {
     name: 'Navbar',
+    props: ['updateKeranjang'],
     data() {
       return {
-        jumlah_pesanans: []
+        jumlah_pesanan: []
       }
     },
     methods: {
       setJumlah(data) {
-        this.jumlah_pesanans = data
+        this.jumlah_pesanan = data
       }
     },
     mounted() {
       axios
-        .get("http://localhost:3000/keranjangs/")
+        .get("http://localhost:3000/keranjangs")
         .then((response) => this.setJumlah(response.data))
         .catch((error) => console.log(error));
     }
