@@ -156,7 +156,7 @@ export default {
           .then(() => {
             // Hapus Semua Keranjang
             // let _this = this
-            let promises = this.keranjangs.map(async function (item) {
+            let delCart = this.keranjangs.map(async function (item) {
               try {
                 return axios
                   .delete("http://localhost:3000/keranjangs/"+item.id);
@@ -165,7 +165,7 @@ export default {
               }
             });
 
-            Promise.all(promises)
+            Promise.all(delCart)
             .then(() => {
               this.$router.push({ path: "/pesanan-sukses" });
               this.$toast.success("Sukses Dipesan", {
