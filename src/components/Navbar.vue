@@ -46,6 +46,7 @@ export default {
   methods: {
     setJumlah(data) {
       this.jumlah_pesanan = data;
+      console.log(this.jumlah_pesanan.length);
     },
   },
   mounted() {

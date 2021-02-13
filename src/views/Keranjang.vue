@@ -55,11 +55,16 @@
                   <td align="right">Rp. {{ keranjang.products.harga }}</td>
                   <td align="right">
                     <strong>
-                      Rp. {{ keranjang.products.harga * keranjang.jumlah_pemesanan }}
+                      Rp.
+                      {{
+                        keranjang.products.harga * keranjang.jumlah_pemesanan
+                      }}
                     </strong>
                   </td>
                   <td align="center" class="text-danger">
-                    <b-icon-trash @click="hapusKeranjang(keranjang.id)"></b-icon-trash>
+                    <b-icon-trash
+                      @click="hapusKeranjang(keranjang.id)"
+                    ></b-icon-trash>
                   </td>
                 </tr>
 
@@ -91,7 +96,11 @@
               <input type="text" class="form-control" v-model="order.noMeja" />
             </div>
 
-            <button type="submit" class="btn btn-success float-right" @click="checkout">
+            <button
+              type="submit"
+              class="btn btn-success float-right"
+              @click="checkout"
+            >
               <b-icon-cart></b-icon-cart> Order
             </button>
           </form>
@@ -108,12 +117,12 @@ import axios from "axios";
 export default {
   name: "Keranjang",
   components: {
-    Navbar
+    Navbar,
   },
   data() {
     return {
       keranjangs: [],
-      order: {}
+      order: {},
     };
   },
   methods: {
@@ -122,7 +131,7 @@ export default {
     },
     hapusKeranjang(id) {
       axios
-        .delete("http://localhost:3000/keranjangs/"+id)
+        .delete("http://localhost:3000/keranjangs/" + id)
         .then(() => {
           this.$toast.error("Sukses Hapus Keranjang", {
             type: "error",
@@ -134,62 +143,63 @@ export default {
           // Refresh data keranjang
           axios
             .get("http://localhost:3000/keranjangs")
-            .then(response => this.setKeranjangs(response.data))
-            .catch(error => console.log(error));
+            .then((response) => this.setKeranjangs(response.data))
+            .catch((error) => console.log(error));
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     },
     checkout() {
       if (this.order.nama && this.order.noMeja) {
-        this.order.keranjangs = this.keranjangs
+        this.order.keranjangs = this.keranjangs;
         axios
           .post("http://localhost:3000/pesanans", this.order)
           .then(() => {
+            // Hapus Semua Keranjang
+            // let _this = this
+            let promises = this.keranjangs.map(async function (item) {
+              try {
+                return axios
+                  .delete("http://localhost:3000/keranjangs/"+item.id);
+              } catch(error) {
+                return console.log(error);
+              }
+            });
 
-            // Hapus Semua Keranjang / Cart
-            this.keranjangs.map(function(item) {
-              return axios
-                .delete("http://localhost:3000/keranjangs/" + item.id)
-                .catch(error => console.log(error));
-            })
-
-            // Refresh data keranjang
-            axios
-              .get("http://localhost:3000/keranjangs")
-              .then(response => this.setKeranjangs(response.data))
-              .catch(error => console.log(error));
-
-            this.$router.push({path: "/pesanan-sukses"})
-            this.$toast.success("Sukses Dipesan", {
-              type: "success",
-              position: "top-right",
-              duration: 3000,
-              dismissable: true,
+            Promise.all(promises)
+            .then(() => {
+              this.$router.push({ path: "/pesanan-sukses" });
+              this.$toast.success("Sukses Dipesan", {
+                type: "success",
+                position: "top-right",
+                duration: 3000,
+                dismissible: true,
+              });
             })
           })
+          .catch((err) => console.log(err));
       } else {
         this.$toast.error("Nama dan Nomor Meja Harus Diisi", {
-            type: "error",
-            position: "top-right",
-            duration: 3000,
-            dismissable: true,
-          });
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissable: true,
+        });
       }
-    }
+    },
   },
   mounted() {
     axios
       .get("http://localhost:3000/keranjangs")
-      .then(response => this.setKeranjangs(response.data))
-      .catch(error => console.log(error));
+      .then((response) => this.setKeranjangs(response.data))
+      .catch((error) => console.log(error));
   },
   computed: {
     totalHarga() {
-      return this.keranjangs.reduce(function(item,data) {
-        return item + (data.products.harga * data.jumlah_pemesanan)
-      }, 0)
-    }
-  }
+      return this.keranjangs.reduce(function (item, data) {
+        return item + data.products.harga * data.jumlah_pemesanan;
+      }, 0);
+    },
+  },
 };
 </script>
 

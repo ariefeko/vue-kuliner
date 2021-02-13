@@ -55,7 +55,6 @@ export default {
       search: ""
     }
   },
-  // get data from backend and put it to products array above
   methods: {
     setProducts(data) {
       this.products = data
@@ -67,7 +66,6 @@ export default {
         .catch((error) => console.log(error))
     }
   },
-  // executed when home.vue loaded
   mounted() {
     axios
       .get("http://localhost:3000/products")

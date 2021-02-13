@@ -10,11 +10,6 @@ import Navbar from "@/components/Navbar.vue";
 
 export default {
   name: "PesananSukses",
-  data() {
-    return {
-      keranjangs: [],
-    };
-  },
   components: {
     Navbar,
   },
